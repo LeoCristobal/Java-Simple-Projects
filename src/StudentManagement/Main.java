@@ -3,17 +3,18 @@ package StudentManagement;
 import StudentManagement.StudentInfo.Student;
 import StudentManagement.utils.StudentUtils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 class Main {
-    static void main(String[] args) {
-        ArrayList<git init Student> students = new ArrayList<>();
-        Scanner sc = new Scanner(System.in);
-        boolean exists = false;
+    static void main(String[] args) throws IOException {
+        ArrayList<Student> students = new ArrayList<>();
+        boolean exists;
         int choice = 0;
-        boolean isError = false;
-        boolean isFound = false;
+        boolean isError;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         // Interface
         do {
 
@@ -29,12 +30,13 @@ class Main {
             System.out.println("7. Exit\n");
 
             try {
-
                 System.out.print("Choice: ");
-                choice = Integer.parseInt(sc.nextLine());
+                choice = Integer.parseInt(br.readLine());
             } catch (NumberFormatException e) {
                 isError = true;
                 System.out.println("Please enter a valid choice");
+            } finally {
+                br.close();
             }
 
             switch (choice) {
@@ -46,8 +48,8 @@ class Main {
                         do {
                             exists = false;
                             // ID
-                            System.out.print("StudentManagement.Student ID: ");
-                            student.setId(Integer.parseInt(sc.nextLine()));
+                            System.out.print("Student ID: ");
+                            student.setId(Integer.parseInt(br.readLine()));
 
                             for (Student s : students) {
                                 if (student.getId() == s.getId()) {
@@ -60,35 +62,37 @@ class Main {
 
                         // Name
                         System.out.print("Name: ");
-                        student.setName(sc.nextLine());
+                        student.setName(br.readLine());
 
                         // Age
                         System.out.print("age: ");
-                        student.setAge(Integer.parseInt(sc.nextLine()));
+                        student.setAge(Integer.parseInt(br.readLine()));
 
                         // Course
                         System.out.print("Course: ");
-                        student.setCourse(sc.nextLine());
+                        student.setCourse(br.readLine());
 
                         // PreLim
                         System.out.print("Prelim: ");
-                        student.setPreLim(Double.parseDouble(sc.nextLine()));
+                        student.setPreLim(Double.parseDouble(br.readLine()));
 
                         // MidTerm
                         System.out.print("Mid Term: ");
-                        student.setMidTerm(Double.parseDouble(sc.nextLine()));
+                        student.setMidTerm(Double.parseDouble(br.readLine()));
 
                         // Final Exam
                         System.out.print("Final Exam: ");
-                        student.setFinalExam(Double.parseDouble(sc.nextLine()));
+                        student.setFinalExam(Double.parseDouble(br.readLine()));
 
                         students.add(student);
                         StudentUtils.sort(students);
 
-                        System.out.println("StudentManagement.Student successfully added!");
+                        System.out.println("Student successfully added!");
 
                     } catch (NumberFormatException e) {
                         System.out.println("Error: " + e.getMessage());
+                    } finally {
+                        br.close();
                     }
                     break;
 
@@ -111,18 +115,18 @@ class Main {
                     do {
                         isError = false;
                         try {
-                            System.out.print("Enter StudentManagement.Student ID: ");
-                            int id = Integer.parseInt(sc.nextLine());
+                            System.out.print("Enter Student ID: ");
+                            int id = Integer.parseInt(br.readLine());
 
                             if (!students.isEmpty()) {
                                 Student result = StudentUtils.binarySearch(id, students);
                                 result.show();
                             } else {
-                                System.out.println("StudentManagement.Student ID not found!");
+                                System.out.println("Student ID not found!");
                             }
                         } catch (NumberFormatException e) {
                             isError = true;
-                            System.out.println("Enter a valid StudentManagement.Student ID!");
+                            System.out.println("Enter a valid Student ID!");
                         }
                     } while (isError);
                     break;
